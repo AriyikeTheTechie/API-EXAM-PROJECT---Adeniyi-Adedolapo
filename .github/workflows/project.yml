@@ -26,11 +26,23 @@ jobs:
       - name: Install Newman & HTML Reporter
         run: npm install -g newman newman-reporter-htmlextra
 
-      # Step 4: Create reports directory
+      # Step 4: Debug - List all files so we can see exact names
+      - name: List Project Files (Debug)
+        run: |
+          echo "=== Root files ==="
+          ls -la
+          echo ""
+          echo "=== Collections folder ==="
+          ls -la collections/
+          echo ""
+          echo "=== Environments folder ==="
+          ls -la environments/
+
+      # Step 5: Create reports directory
       - name: Create Reports Directory
         run: mkdir -p reports
 
-      # Step 5: Run Postman Collection with Environment
+      # Step 6: Run Postman Collection with Environment
       # Pipeline FAILS automatically if any test fails (non-zero exit code)
       - name: Run API Tests with Newman
         run: |
@@ -40,7 +52,7 @@ jobs:
             --reporter-htmlextra-export reports/report.html \
             --reporter-htmlextra-title "QACE API PROJECT Test Report"
 
-      # Step 6: Upload HTML Report as artifact (even if tests fail)
+      # Step 7: Upload HTML Report as artifact (even if tests fail)
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
         if: always()
