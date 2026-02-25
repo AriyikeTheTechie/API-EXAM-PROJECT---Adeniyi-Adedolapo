@@ -30,16 +30,15 @@ jobs:
       - name: Create Reports Directory
         run: mkdir -p reports
 
-      # Step 5: Run Postman Collection
+      # Step 5: Run Postman Collection with Environment
       # Pipeline FAILS automatically if any test fails (non-zero exit code)
       - name: Run API Tests with Newman
         run: |
-          newman run "QACE API PROJECT.postman_collection.json" 
-          -r htmlextra 
-          --reporter-htmlextra-export TestReport.html \
+          newman run "collections/QACE API PROJECT.postman_collection.json" \
+            -e "environments/QACE API PROJECT.postman_environment.json" \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export reports/report.html \
-            --reporter-htmlextra-title "API Test Report"
+            --reporter-htmlextra-title "QACE API PROJECT Test Report"
 
       # Step 6: Upload HTML Report as artifact (even if tests fail)
       - name: Upload Test Report
