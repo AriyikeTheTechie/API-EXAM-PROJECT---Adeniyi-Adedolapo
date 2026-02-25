@@ -34,7 +34,9 @@ jobs:
       # Pipeline FAILS automatically if any test fails (non-zero exit code)
       - name: Run API Tests with Newman
         run: |
-          newman run collections/collection.json \
+          newman run "QACE API PROJECT.postman_collection.json" 
+          -r htmlextra 
+          --reporter-htmlextra-export TestReport.html \
             --reporters cli,htmlextra \
             --reporter-htmlextra-export reports/report.html \
             --reporter-htmlextra-title "API Test Report"
